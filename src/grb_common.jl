@@ -6,6 +6,7 @@ typealias GChars Union(Cchar, Char)
 typealias IVec Vector{Cint}
 typealias FVec Vector{Float64}
 typealias CVec Vector{Cchar}
+typealias SVec Vector{ASCIIString}
 
 typealias GCharOrVec Union(Cchar, Char, Vector{Cchar}, Vector{Char})
 
@@ -18,10 +19,12 @@ cchar(c::Char) = convert(Cchar, c)
 ivec(v::IVec) = v
 fvec(v::FVec) = v
 cvec(v::CVec) = v
+svec(v::SVec) = v
 
 ivec(v::Vector) = convert(IVec, v)
 fvec(v::Vector) = convert(FVec, v)
 cvec(v::Vector) = convert(CVec, v)
+svec(v::Vector) = convert(SVec, v)
 
 # cvecx(v, n) and fvecx(v, n)
 # converts v into a vector of Cchar or Float64 of length n,

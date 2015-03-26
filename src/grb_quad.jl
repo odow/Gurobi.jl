@@ -146,7 +146,7 @@ end
 
 # add_qconstr!
 
-function add_qconstr!(model::Model, lind::IVec, lval::FVec, qr::IVec, qc::IVec, qv::FVec, rel::Cchar, rhs::Float64)
+function add_qconstr!(model::Model, lind::IVec, lval::FVec, qr::IVec, qc::IVec, qv::FVec, rel::Cchar, rhs::Float64, name = C_NULL::Union(Ptr{None}, ASCIIString))
     qnnz = length(qr)
     qnnz == length(qc) == length(qv) || error("Inconsistent argument dimensions.")
 
@@ -167,7 +167,7 @@ function add_qconstr!(model::Model, lind::IVec, lval::FVec, qr::IVec, qc::IVec, 
             Float64,      # rhs
             Ptr{Uint8}    # name
             ), 
-            model, lnnz, lind.-1, lval, qnnz, qr.-1, qc.-1, qv, rel, rhs, C_NULL)
+            model, lnnz, lind.-1, lval, qnnz, qr.-1, qc.-1, qv, rel, rhs, name)
             
         if ret != 0
             throw(GurobiError(model.env, ret))
@@ -177,8 +177,8 @@ function add_qconstr!(model::Model, lind::IVec, lval::FVec, qr::IVec, qc::IVec, 
 end
 
 function add_qconstr!(model::Model, lind::Vector, lval::Vector, qr::Vector, qc::Vector,
-    qv::Vector{Float64}, rel::GChars, rhs::Real)
+    qv::Vector{Float64}, rel::GChars, rhs::Real, name = C_NULL::Union(Ptr{None}, ASCIIString))
 
-    add_qconstr!(model, ivec(lind), fvec(lval), ivec(qr), ivec(qc), fvec(qv), cchar(rel), float64(rhs))
+    add_qconstr!(model, ivec(lind), fvec(lval), ivec(qr), ivec(qc), fvec(qv), cchar(rel), float64(rhs), name)
 end
 
